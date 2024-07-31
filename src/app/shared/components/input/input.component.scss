@@ -1,0 +1,81 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+
+  label {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .error-label {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--error-label);
+    font-style: normal;
+  }
+
+  .input-wrapper {
+    position: relative;
+
+    i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    input {
+      cursor: pointer;
+      width: 100%;
+      font-size: var(--form-input-font-size);
+      font-family: var(--font-family);
+      text-align: end;
+      color: var(--very-dark-cyan);
+      caret-color: var(--strong-cyan);
+      border: 2px solid transparent;
+      border-radius: 8px;
+      outline: none;
+      height: 60px;
+      padding: 4px 16px;
+      transition: border-color 300ms ease-in;
+
+      &::placeholder {
+        color: var(--dark-grayish-cyan);
+        font-size: var(--form-input-font-size);
+        font-family: var(--font-family);
+      }
+
+      &::-webkit-input-placeholder {
+        font-family: var(--font-family);
+      }
+
+      &:-moz-placeholder {
+        font-family: var(--font-family);
+      }
+
+      &:focus, &:hover {
+        border-color: var(--strong-cyan);
+      }
+
+      &.ng-invalid.ng-dirty {
+        border-color: var(--error);
+      }
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      /* display: none; <- Crashes Chrome on hover */
+      -webkit-appearance: none;
+      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield; /* Firefox */
+    }
+  }
+}

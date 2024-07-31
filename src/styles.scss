@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --min-width: 340px;
+  --desktop-max:1440px;
+
+  --strong-cyan: rgb(38, 192, 171);
+  --strong-cyan-2: hsl(173, 61%, 77%);
+  --very-dark-cyan: hsl(183, 100%, 15%);
+  --very-dark-cyan-alt: hsl(183, 100%, 20%);
+  --dark-grayish-cyan: rgb(94, 122, 125);
+  --light-grayish-cyan: rgb(197, 228, 231);
+  --very-light-grayish-cyan: hsl(189, 41%, 97%);
+  --white: hsl(0, 0%, 100%);
+  --error: hsl(10, 30%, 58%);
+  --error-label: hsl(10, 70%, 58%);
+  --color-primary: var(--strong-cyan);
+  --font-size: 24px;
+  --form-input-font-size: var(--font-size);
+  --font-family: 'Space Mono', monospace;
+}
+
+
+body {
+  padding: 0;
+  margin: 0;
+  color: var(--dark-grayish-cyan);
+  background-color: var(--light-grayish-cyan);
+  font-family: var(--font-family);
+  font-size: 24px;
+  min-width: var(--min-width);
+}

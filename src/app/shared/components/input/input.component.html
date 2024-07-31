@@ -1,0 +1,17 @@
+<div class="form-input">
+  <label for="label">{{ label() }}</label>
+  <div class="input-wrapper">
+    @if(icon(); as icon) {
+    <i> <img [src]="'assets/images/' + icon + '.svg'" [alt]="icon" /> </i>
+    }
+
+    <input
+      #input
+      [placeholder]="placeholder()"
+      type="number"
+      [name]="label()"
+      [value]="value()"
+      (change)="onValueChange(input.value)"
+    />
+  </div>
+</div>

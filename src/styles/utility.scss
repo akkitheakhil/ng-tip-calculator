@@ -1,0 +1,26 @@
+@mixin media($width: 600px) {
+  @media only screen and (max-width: $width) {
+    @content;
+  }
+}
+
+// Mobile specific
+@mixin mobile() {
+  @media only screen and (min-width: 540px) {
+    @content;
+  }
+}
+
+// Tab specific
+@mixin tab() {
+  @media only screen and (min-width: 740px) {
+    @content;
+  }
+}
+
+// Laptop specific
+@mixin laptop() {
+  @media only screen and (min-width: 960px) {
+    @content;
+  }
+}

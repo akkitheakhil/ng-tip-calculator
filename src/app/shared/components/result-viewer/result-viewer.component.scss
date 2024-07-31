@@ -1,0 +1,25 @@
+.result-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .text-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .text {
+      color: var(--white);
+      font-size: 16px;
+    }
+
+    .sub-text {
+      font-size: 12px;
+    }
+
+  }
+
+  .result {
+    text-align: end;
+    color: var(--strong-cyan);
+    font-size: calc(1.5 * var(--font-size));
+  }
+}
