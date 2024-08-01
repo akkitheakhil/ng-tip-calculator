@@ -8,6 +8,8 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpExampleService } from './services/http-example.service';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { InputComponent } from './shared/components/input/input.component';
 import { ResultViewerComponent } from './shared/components/result-viewer/result-viewer.component';
@@ -27,10 +29,17 @@ import { InfinityPipe } from './shared/pipe/infinity.pipe';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  private injector = inject(Injector);
+  private readonly injector = inject(Injector);
+  private readonly httpService = inject(HttpExampleService);
+
   protected billAmount = signal<number>(0);
   protected persons = signal(0);
   protected tip = signal(0);
+
+  protected tipSelectors = toSignal(this.httpService.getTipSelector(), {
+    injector: this.injector,
+    initialValue: [],
+  });
 
   protected tipAmount = computed(
     () => (this.tip() * this.billAmount()) / 100 || 0
@@ -44,12 +53,13 @@ export class AppComponent implements OnInit {
     () => (this.billAmount() + this.tipAmount()) / this.persons() || 0
   );
 
-  protected tipSelectors = [5, 10, 15, 25, 50];
-
   ngOnInit(): void {
     effect(
       () => {
-        console.log(this.persons(), this.tip(), this.billAmount());
+        const total = this.totalAmount();
+        if (total !== 0) {
+          this.httpService.updateTotalAmount(total);
+        }
       },
       { injector: this.injector }
     );

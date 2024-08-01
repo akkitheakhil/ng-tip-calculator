@@ -21,11 +21,13 @@
       <div class="tip-selector">
         <label class="select-label">Select Tip %</label>
         <div class="tip-selector-buttons">
-          @for (selector of tipSelectors; track selector) {
+          @for (selector of tipSelectors(); track selector) {
           <app-button
+            data-test-id="tip-selector-btn"
             [label]="selector + '%'"
             [isActive]="selector === tip()"
             (click)="handleTipSelection(selector)"
+            buttonType="primary"
           />
           }
 
@@ -54,7 +56,7 @@
       <app-button
         class="reset-button"
         label="Reset"
-        type="secondary"
+        buttonType="secondary"
         (click)="handleReset()"
       />
     </section>

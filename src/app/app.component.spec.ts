@@ -1,14 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flush,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
 import { AppComponent } from './app.component';
+import { HttpExampleService } from './services/http-example.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let mockHttpService: jasmine.SpyObj<HttpExampleService> =
+    jasmine.createSpyObj('HttpExampleService', [
+      'updateTotalAmount',
+      'getTipSelector',
+    ]);
+
+  let mockTipAmounts$ = new BehaviorSubject<number[]>([]);
 
   beforeEach(async () => {
+    mockHttpService.getTipSelector.and.returnValue(mockTipAmounts$);
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [{ provide: HttpExampleService, useValue: mockHttpService }],
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
@@ -32,4 +49,17 @@ describe('AppComponent', () => {
     ).nativeElement;
     expect(result.textContent?.trim()).toBe('Total / person  $157.50');
   });
+
+  it('should get proper tip amounts from service', fakeAsync(() => {
+    expect(component['tipSelectors']()).toEqual([]); // initial
+    mockTipAmounts$.next([5, 10, 20]);
+    tick(100);
+    fixture.detectChanges();
+    expect(component['tipSelectors']()).toEqual([5, 10, 20]);
+    const tipSelectorButtons = fixture.debugElement.queryAll(
+      By.css('[data-test-id="tip-selector-btn"]')
+    );
+    expect(tipSelectorButtons.length).toBe(3);
+    flush();
+  }));
 });
