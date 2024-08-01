@@ -5,6 +5,7 @@ import {
   effect,
   inject,
   Injector,
+  OnInit,
   signal,
 } from '@angular/core';
 import { ButtonComponent } from './shared/components/button/button.component';
@@ -25,7 +26,7 @@ import { InfinityPipe } from './shared/pipe/infinity.pipe';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private injector = inject(Injector);
   protected billAmount = signal<number>(0);
   protected persons = signal(0);
@@ -54,20 +55,8 @@ export class AppComponent {
     );
   }
 
-  protected handleTipSelection(tip: number | string): void {
-    tip = Number(tip);
-    if (isNaN(tip)) {
-      return;
-    }
+  protected handleTipSelection(tip: number): void {
     this.tip.set(tip);
-  }
-
-  protected handlePersonChange(person: number | string): void {
-    person = Number(person);
-    if (isNaN(person)) {
-      return;
-    }
-    this.persons.set(person);
   }
 
   protected handleReset(): void {

@@ -46,6 +46,7 @@
         [value]="this.tipAmountPerPerson() | infinity"
       ></app-result-viewer>
       <app-result-viewer
+        data-test-id="result"
         text="Total"
         subText="person"
         [value]="this.totalAmount() | infinity"

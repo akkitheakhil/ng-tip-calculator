@@ -29,7 +29,9 @@ const currentCount = count();
 #### Updating a Signal:
 
 ```typescript
-count.set(count() + 1);
+count.set(2);
+// or
+count.update((count) => count + 1);
 ```
 
 ## Signals and Dependency Tracking
@@ -50,6 +52,64 @@ In this example, greeting is a computed Signal that depends on name. Whenever na
 ## Template Binding:
 
 Signals can be used directly in templates using the () syntax. This provides a clean and declarative way to render data based on Signal values.
+
+## Model, Input, and Output Signals
+Angular Signals introduce new ways to manage component inputs, outputs, and two-way binding.
+
+- **Model Signal** : Used for two-way binding between a component and its template.
+```typescript
+import { Component, model } from '@angular/core';
+
+@Component({
+  // ...
+})
+export class MyComponent {
+  name = model('John Doe');
+}
+```
+- **Input Signal** : Replaces the @Input() decorator for receiving data from parent components.
+```typescript
+import { Component, input } from '@angular/core';
+
+@Component({
+  // ...
+})
+export class MyComponent {
+  title = input<string>('Default Title');
+}
+```
+- **Output Signal** : Replaces the @Output() decorator for emitting events.
+```typescript
+import { Component, output } from '@angular/core';
+
+@Component({
+  // ...
+})
+export class MyComponent {
+  clicked = output<void>();
+
+  handleClick() {
+    this.clicked.emit();
+  }
+}
+```
+
+## RxJS Interop
+Signals can interact with RxJS observables and subjects.
+- Converting Signal to Observable:
+```typescript
+import { fromSignal } from '@angular/core';
+
+const count$ = fromSignal(count);
+```
+
+- Converting Observable to Signal:
+```typescript
+import { toSignal } from '@angular/core';
+
+const count$ = new BehaviorSubject(0);
+const count = toSignal(count$);
+```
 
 ## Performance Benefits
 
