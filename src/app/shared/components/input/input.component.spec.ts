@@ -27,4 +27,14 @@ describe('InputComponent', () => {
     await fixture.whenStable();
     expect(inputElem.value).toEqual('10');
   });
+
+  it('should emit new value when input value changes', (done) => {
+    let expectedValue: number | string = 0;
+    component.value.subscribe((val) => {
+      expectedValue = val;
+      done();
+    });
+    component.onValueChange('300');
+    expect(expectedValue).toEqual(300);
+  });
 });
