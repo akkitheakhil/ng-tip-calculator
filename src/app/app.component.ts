@@ -7,6 +7,7 @@ import {
   Injector,
   OnInit,
   signal,
+  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HttpExampleService } from './services/http-example.service';
@@ -55,9 +56,11 @@ export class AppComponent implements OnInit {
     effect(
       () => {
         const total = this.totalAmount();
-        if (total !== 0) {
-          this.httpService.updateTotalAmount(total);
-        }
+        untracked(() => {
+          if (total !== 0 && !isNaN(total)) {
+            this.httpService.updateTotalAmount(total);
+          }
+        });
       },
       { injector: this.injector }
     );

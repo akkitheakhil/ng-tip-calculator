@@ -14,5 +14,6 @@ export class HttpExampleService {
 
   updateTotalAmount(amount: number) {
     // post value to server
+    console.log(amount);
   }
 }

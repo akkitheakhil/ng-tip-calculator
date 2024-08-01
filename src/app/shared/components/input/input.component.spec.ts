@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { InputComponent } from './input.component';
 
 describe('InputComponent', () => {
@@ -18,7 +19,12 @@ describe('InputComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should render the value properly', async () => {
+    fixture.componentRef.setInput('value', 10);
+    const inputElem: HTMLInputElement = fixture.debugElement.query(
+      By.css('[data-test-id="custom-input"]')
+    ).nativeElement;
+    await fixture.whenStable();
+    expect(inputElem.value).toEqual('10');
   });
 });
