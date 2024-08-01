@@ -122,3 +122,11 @@ const count = toSignal(count$);
 - Computed Signals: Create derived values based on other Signals.
 - Effect Functions: Perform side effects when Signal values change.
 - Promises and Observables Integration: Seamlessly work with existing asynchronous patterns.
+
+### Resources
+Angular Signals offer a powerful way to manage state reactively. For further learning, explore:
+
+- [Angular Signals (Officail Docs)](https://angular.dev/guide/signals)
+- [Signal Inputs (Officail Docs)](https://angular.dev/guide/signals/inputs)
+- [How Do Angular Signals Work Under the Hood?](https://www.divotion.com/blog/how-do-angular-signals-work-under-the-hood)
+- [Testing Angular Signals](https://medium.com/ngconf/how-do-i-test-signals-signal-computed-effect-6d97e0732f2c)
