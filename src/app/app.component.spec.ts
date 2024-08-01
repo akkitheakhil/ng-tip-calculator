@@ -1,10 +1,5 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  flush,
-  tick,
-} from '@angular/core/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { AppComponent } from './app.component';
@@ -25,11 +20,14 @@ describe('AppComponent', () => {
     mockHttpService.getTipSelector.and.returnValue(mockTipAmounts$);
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [{ provide: HttpExampleService, useValue: mockHttpService }],
+      providers: [
+        { provide: HttpExampleService, useValue: mockHttpService },
+        provideExperimentalZonelessChangeDetection(),
+      ],
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create the app', () => {
@@ -38,28 +36,26 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should calculate total amount per person', () => {
+  it('should calculate total amount per person', async () => {
     component['billAmount'].set(300);
     component['persons'].set(2);
     component['tip'].set(5);
     expect(component['totalAmount']()).toBe(157.5);
-    fixture.detectChanges();
+    await fixture.whenStable();
     const result: HTMLElement = fixture.debugElement.query(
       By.css('[data-test-id="result"]')
     ).nativeElement;
     expect(result.textContent?.trim()).toBe('Total / person  $157.50');
   });
 
-  it('should get proper tip amounts from service', fakeAsync(() => {
+  it('should get proper tip amounts from service', async () => {
     expect(component['tipSelectors']()).toEqual([]); // initial
     mockTipAmounts$.next([5, 10, 20]);
-    tick(100);
-    fixture.detectChanges();
     expect(component['tipSelectors']()).toEqual([5, 10, 20]);
+    await fixture.whenStable();
     const tipSelectorButtons = fixture.debugElement.queryAll(
       By.css('[data-test-id="tip-selector-btn"]')
     );
     expect(tipSelectorButtons.length).toBe(3);
-    flush();
-  }));
+  });
 });
