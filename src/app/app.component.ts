@@ -36,22 +36,20 @@ export class AppComponent implements OnInit {
   protected persons = signal(0);
   protected tip = signal(0);
 
+  protected tipAmount = computed(() => (this.tip() * this.billAmount()) / 100);
+
+  protected tipAmountPerPerson = computed(
+    () => this.tipAmount() / this.persons()
+  );
+
+  protected totalAmount = computed(
+    () => (this.billAmount() + this.tipAmount()) / this.persons()
+  );
+
   protected tipSelectors = toSignal(this.httpService.getTipSelector(), {
     injector: this.injector,
     initialValue: [],
   });
-
-  protected tipAmount = computed(
-    () => (this.tip() * this.billAmount()) / 100 || 0
-  );
-
-  protected tipAmountPerPerson = computed(
-    () => this.tipAmount() / this.persons() || 0
-  );
-
-  protected totalAmount = computed(
-    () => (this.billAmount() + this.tipAmount()) / this.persons() || 0
-  );
 
   ngOnInit(): void {
     effect(
